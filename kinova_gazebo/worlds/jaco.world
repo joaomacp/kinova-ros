@@ -12,6 +12,112 @@
       <uri>model://sun</uri>
     </include>
 
+    <model name="coke_marker">
+      <pose>-0.35 0.3 0.1 0 0 0</pose>
+      <link name="coke_link">
+      <inertial>
+        <pose>0 0 0.06 0 0 0</pose>
+        <mass>0.390</mass>
+        <inertia>
+          <ixx>0.00055575</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00055575</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001755</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <pose>0.003937 0.0047244 -0.18 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://coke_can/meshes/coke_can.dae</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>10000000.0</kp>
+              <kd>1.0</kd>
+              <min_depth>0.001</min_depth>
+              <max_vel>0.1</max_vel>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <pose>0.003937 0.0047244 -0.18 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://coke_can/meshes/coke_can.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="marker_link">
+      <pose>0.005 -0.041 0.22 0 0 1.57</pose>
+      <inertial>
+        <pose>0 0 0.06 0 0 0</pose>
+        <mass>0.020</mass>
+        <inertia>
+          <ixx>0.00055575</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00055575</iyy>
+          <iyz>0</iyz>
+          <izz>0.0001755</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <pose>0.003937 0.0047244 -0.18 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://marker0/meshes/Marker0.dae</uri>
+            <scale>0.13 0.13 0.13</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>10000000.0</kp>
+              <kd>1.0</kd>
+              <min_depth>0.001</min_depth>
+              <max_vel>0.1</max_vel>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <pose>0.003937 0.0047244 -0.18 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://marker0/meshes/Marker0.dae</uri>
+            <scale>0.13 0.13 0.13</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+      <joint name="coke_marker_joint" type="fixed">
+        <pose>-0.7 0.5 0.1 0 0 0</pose>
+        <child>marker_link</child>
+        <parent>coke_link</parent>
+      </joint>
+    </model>
+
     <!-- Focus camera on tall pendulum -->
     <gui fullscreen='0'>
       <camera name='user_camera'>
@@ -19,6 +125,58 @@
         <view_controller>orbit</view_controller>
       </camera>
     </gui>
+
+  <model name='camera'>
+      <static>true</static>
+      <pose>-0.5 -0.4 0.5 0 0.69 1.57</pose>
+      <link name='gazebo_camera_link'>
+        <visual name='gazebo_camera_visual'>
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+        </visual>
+        <sensor name="rgb_camera" type="camera">
+          <camera>
+            <save enabled="false"></save>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>100</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <!-- Noise is sampled independently per pixel on each frame.
+                  That pixel's noise value is added to each of its color
+                  channels, which at that point lie in the range [0,1]. -->
+              <mean>0.0</mean>
+              <stddev>0.007</stddev>
+            </noise>
+          </camera>
+          <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>0.0</updateRate>
+            <cameraName>camera/rgb</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>camera_rgb_optical_frame</frameName>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+          </plugin>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+        </sensor>
+      </link>
+    </model>
 
   </world>
 </sdf>
