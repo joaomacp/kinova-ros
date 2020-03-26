@@ -79,7 +79,7 @@
         <pose>0.003937 0.0047244 -0.18 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://marker0/meshes/Marker0.dae</uri>
+            <uri>model://marker3/meshes/Marker3.dae</uri>
             <scale>0.13 0.13 0.13</scale>
           </mesh>
         </geometry>
@@ -104,7 +104,7 @@
         <pose>0.003937 0.0047244 -0.18 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://marker0/meshes/Marker0.dae</uri>
+            <uri>model://marker3/meshes/Marker3.dae</uri>
             <scale>0.13 0.13 0.13</scale>
           </mesh>
         </geometry>
