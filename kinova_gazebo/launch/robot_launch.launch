@@ -25,6 +25,10 @@
   <param name="robot_description"
     command="$(find xacro)/xacro --inorder '$(find kinova_description)/urdf/$(arg kinova_robotType)_standalone.xacro'" />
 
+  <!-- For now: overwriting parameter, loading the URDF of the robot with markers  -->
+  <param name="robot_description"
+    command="$(find xacro)/xacro --inorder '$(find kinova_description)/urdf/$(arg kinova_robotType)_wrist_markers_standalone.xacro'" />
+
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <!-- For the 6DOF -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" unless="$(arg is7dof)"
