@@ -65,6 +65,8 @@ def argumentParser(argument_):
     parser = argparse.ArgumentParser(description='Drive fingers to command position')
     parser.add_argument('kinova_robotType', metavar='kinova_robotType', type=str, default='j2n6a300',
                         help='kinova_RobotType is in format of: [{j|m|r|c}{1|2}{s|n}{4|6|7}{s|a}{2|3}{0}{0}]. eg: j2n6a300 refers to jaco v2 6DOF assistive 3fingers. Please be noted that not all options are valided for different robot types.')
+    parser.add_argument('kinova_robotName', metavar='kinova_robotName', type=str, default='j2n6a300',
+                        help='kinova_RobotName: the name of the robot')
     parser.add_argument('unit', metavar='unit', type=str, default='turn',
                         choices={'turn', 'mm', 'percent'},
                         help='Unit of finger motion command, in turn[0, 6800], mm[0, 9.45], percent[0,100]')
@@ -80,7 +82,7 @@ def argumentParser(argument_):
     return args_
 
 
-def kinova_robotTypeParser(kinova_robotType_):
+def kinova_robotTypeParser(kinova_robotType_, kinova_robotName_):
     """ Argument kinova_robotType """
     global robot_category, robot_category_version, wrist_type, arm_joint_number, robot_mode, finger_number, prefix, finger_maxDist, finger_maxTurn 
     robot_category = kinova_robotType_[0]
@@ -89,7 +91,7 @@ def kinova_robotTypeParser(kinova_robotType_):
     arm_joint_number = int(kinova_robotType_[3])
     robot_mode = kinova_robotType_[4]
     finger_number = int(kinova_robotType_[5])
-    prefix = kinova_robotType_ + "_"
+    prefix = kinova_robotName_ + "_"
     finger_maxDist = 18.9/2/1000  # max distance for one finger in meter
     finger_maxTurn = 6800  # max thread turn for one finger
 
@@ -157,7 +159,7 @@ if __name__ == '__main__':
 
     args = argumentParser(None)
 
-    kinova_robotTypeParser(args.kinova_robotType)
+    kinova_robotTypeParser(args.kinova_robotType, args.kinova_robotName)
     rospy.init_node(prefix + 'gripper_workout')
 
     if len(args.finger_value) != finger_number:
